@@ -27,14 +27,31 @@ namespace BeatPlanner
 		int Upper { get; }
 	}
 
+	public class Meter
+	{
+		public readonly int Upper;
+		public readonly int Lower;
+		public Meter(int u, int l)
+		{
+			Upper = u;
+			if(l == 2 || l == 4 || l == 8 || l == 16 || l == 32)
+				Lower = l;
+			else throw new ArgumentException("Invalid lower meter given");
+		}
+
+		public static readonly Meter Common = new Meter(4,4);
+		
+	}
+
 	public class Beat
 	{
 		public int BPM;
-		public int Duration;
-		public Beat(int BPM, int duration)
+		public Meter Meter;
+
+		public Beat(int BPM, Meter meter)
 		{
 			this.BPM = BPM;
-			this.Duration = duration;
+			this.Meter = meter;
 		}
 	}
 
@@ -43,11 +60,12 @@ namespace BeatPlanner
 		public static void Main(string[] args)
 		{
 			List<Beat> beats = new List<Beat>();
-			beats.Add(new Beat(80, 8));
-			beats.Add(new Beat(120, 8));
-			beats.Add(new Beat(200, 4));
-			beats.Add(new Beat(40, 4));
+			beats.Add(new Beat(80, Meter.Common));
+			beats.Add(new Beat(120, Meter.Common));
+			beats.Add(new Beat(200, Meter.Common));
+			beats.Add(new Beat(40, Meter.Common));
 
+			/*
 			Metronome metro = new Metronome();
 			int i = 0;
 			Beat beat = beats[i];
@@ -66,7 +84,8 @@ namespace BeatPlanner
 				}
 			}
 			metro.Stop();
-			// MetroTest(args);
+			*/
+			MetroTest(args);
 		}
 
 		public static void MetroTest(string[] args)
@@ -74,7 +93,7 @@ namespace BeatPlanner
 			Console.WriteLine("Hello!");
 
 			Metronome metro = new Metronome();
-			metro.Start();
+			// metro.Start();
 			
 
 			String read;
@@ -107,7 +126,18 @@ namespace BeatPlanner
 					case "bpm":
 						string bpmstr = Console.ReadLine();
 						int bpm = Convert.ToInt32(bpmstr);
-						metro.BPM = bpm;
+						metro.Beat = new Beat(bpm, metro.Beat.Meter);
+						// metro.BPM = bpm;
+						break;
+
+					case "beat":
+						string beatstr = Console.ReadLine(); // e.g. 3/4
+						string[] nums = beatstr.Split('/');
+						int upper = Convert.ToInt32(nums[0]);
+						int lower = Convert.ToInt32(nums[1]);
+						// Console.WriteLine(upper);
+						// Console.WriteLine(lower);
+						metro.Beat = new Beat(metro.Beat.BPM, new Meter(upper, lower));
 						break;
 
 					default:

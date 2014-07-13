@@ -4,34 +4,74 @@ using System.Threading;
 
 namespace BeatPlanner
 {
-	public class Metronome
+
+	public class BeatEnumerator
 	{
-		private int bpm;
-		public int BPM
+		public struct Info
 		{
-			get { return bpm; }
-			set
+			public readonly int Index;
+			public readonly long Duration;
+			public Info(int i, long d)
 			{
-				bpm = value;
-				beatDur = 60000 / bpm;
+				Index = i;
+				Duration = d;
 			}
 		}
+
+		public readonly Beat Beat;
+		private int index = 1;
+		public BeatEnumerator(Beat beat)
+		{
+			this.Beat = beat;
+		}
+
+		public Info Next()
+		{
+			int retIndex = index;
+			index++;
+			if(index > Beat.Meter.Upper)
+				index = 1;
+
+			long fourthDur = 60000 / Beat.BPM;
+			long dur = (long)(fourthDur * (4 / (float)Beat.Meter.Lower));
+
+			return new Info(retIndex, dur);
+		}
+	}
+
+	public class Metronome
+	{
+
 		private int beats = 0;
 		public int Beats {get {return beats;} private set {beats = value;}}
 
-		private long lastBeat = 0;
-		private long beatDur = 1000; // 60 bpm
+		public Beat Beat
+		{
+			get { return bEnum.Beat; }
+			set 
+			{
+				bEnum  = new BeatEnumerator(value);
+			}
+		}
+
 		private Stopwatch sw;
 		private Thread thread;
 		private SoundPlayer player;
+		private BeatEnumerator bEnum;
 
 		private bool shouldStop = false;
 
-		public Metronome()
+		public Metronome(Beat beat)
 		{
 			sw = new Stopwatch();
+			bEnum = new BeatEnumerator(beat);
 			player = new SoundPlayer();
 			Beats = 0;
+		}
+
+		public Metronome() : this(new Beat(60, Meter.Common))
+		{
+
 		}
 
 		public void Start()
@@ -51,9 +91,9 @@ namespace BeatPlanner
 
 		public void Reset()
 		{
-			lastBeat = 0;
 			Beats = 0;
 			sw.Reset();
+			bEnum = new BeatEnumerator(bEnum.Beat);
 			if(thread.IsAlive)
 			{
 				sw.Start();
@@ -68,16 +108,15 @@ namespace BeatPlanner
 
 		private void Loop()
 		{
+			//Thread.Sleep(200); // HACK to get first beat audible
+			BeatEnumerator.Info info;
 			while (shouldStop == false)
 			{
-				long elapsed = sw.ElapsedMilliseconds;
-				if (elapsed - lastBeat >= beatDur)
-				{
-					Interlocked.Increment(ref beats);
-					Console.WriteLine(elapsed + ", Beats: " + Beats);
-					lastBeat = sw.ElapsedMilliseconds;
-					player.PlayBeep(440, 50);
-				}
+				info = bEnum.Next();
+				Interlocked.Increment(ref beats);
+				player.PlayBeep((info.Index == 1 ? (ushort)660 : (ushort)440), 50);
+				Console.WriteLine(sw.ElapsedMilliseconds + ", Index: " + info.Index);
+				Thread.Sleep((int)info.Duration); // Not very accurate, unfortunately. Alternatives appear limited
 			}
 			shouldStop = false;
 		}
