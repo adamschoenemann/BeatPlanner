@@ -2,7 +2,7 @@
 bin = bin/Debug
 #bin = bin/Release
 executable = beat-planner.exe
-srcs = src/BeatPlanner.cs src/Metronome.cs src/Utils.cs
+srcs = src/BeatPlanner.cs src/Metronome.cs src/Utils.cs src/SoundPlayer.cs
 
 output = $(bin)/$(executable)
 

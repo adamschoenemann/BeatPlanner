@@ -16,22 +16,28 @@ namespace BeatPlanner
 				beatDur = 60000 / bpm;
 			}
 		}
+		private int beats = 0;
+		public int Beats {get {return beats;} private set {beats = value;}}
+
 		private long lastBeat = 0;
 		private long beatDur = 1000; // 60 bpm
 		private Stopwatch sw;
 		private Thread thread;
+		private SoundPlayer player;
 
 		private bool shouldStop = false;
 
 		public Metronome()
 		{
 			sw = new Stopwatch();
+			player = new SoundPlayer();
+			Beats = 0;
 		}
 
 		public void Start()
 		{
-			sw.Start();
 			thread = new Thread(Loop);
+			sw.Start();
 			thread.Start();
 		}
 
@@ -45,30 +51,32 @@ namespace BeatPlanner
 
 		public void Reset()
 		{
+			lastBeat = 0;
+			Beats = 0;
+			sw.Reset();
 			if(thread.IsAlive)
 			{
-				Restart();
-				return;
+				sw.Start();
 			}
-			lastBeat = 0;
-			sw.Reset();
 		}
 
 		public void Restart()
 		{
-			lastBeat = 0;
-			sw.Restart();
+			Reset();
+			sw.Start();
 		}
 
 		private void Loop()
 		{
 			while (shouldStop == false)
 			{
-				Console.WriteLine(sw.ElapsedMilliseconds);
-				if (sw.ElapsedMilliseconds - lastBeat > beatDur)
+				long elapsed = sw.ElapsedMilliseconds;
+				if (elapsed - lastBeat >= beatDur)
 				{
+					Interlocked.Increment(ref beats);
+					Console.WriteLine(elapsed + ", Beats: " + Beats);
 					lastBeat = sw.ElapsedMilliseconds;
-					SoundUtils.PlayBeep(440, 50);
+					player.PlayBeep(440, 50);
 				}
 			}
 			shouldStop = false;
