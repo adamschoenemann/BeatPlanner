@@ -160,9 +160,20 @@ namespace BeatPlanner
 
 	public class BeatPlanner
 	{
+		private Metronome metro;
+
+		public BeatPlanner(Metronome metro)
+		{
+			this.metro = metro;
+		}
+
+		public BeatPlanner() : this(new Metronome())
+		{
+
+		}
+
 		public void Play(Track track)
 		{
-			Metronome metro = new Metronome();
 			int i = 0;
 			Tuple<Beat, int>[] sequences = track.Sequences;
 			Tuple<Beat, int> seq = sequences[i];
@@ -190,10 +201,22 @@ namespace BeatPlanner
 		public static void Main(string[] args)
 		{
 			Track track = Track.Load("assets/track1.txt");
+			Metronome metro = new Metronome(
+				                  new Beat(Meter.Common, 60),
+				                  new WavSound("assets/llfclave_low.wav"),
+				                  new WavSound("assets/llfclave.wav")
+			                  );
+
+			BeatPlanner planner = new BeatPlanner(metro);
+			planner.Play(track);
+		}
+
+		public static void LoadSaveTest(string[] args)
+		{
+			Track track = Track.Load("assets/track1.txt");
 			BeatPlanner planner = new BeatPlanner();
 			track.Save("assets/track2.txt");
 //			planner.Play(track);
-
 		}
 
 		public static void ParseBeatTest(string[] args)

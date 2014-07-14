@@ -4,6 +4,7 @@ using System.Threading;
 
 namespace BeatPlanner
 {
+	/*
 	public class SoundPlayer
 	{
 		private Thread thread;
@@ -39,4 +40,5 @@ namespace BeatPlanner
 			}
 		}
 	}
+	*/
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Media;
 
 namespace BeatPlanner
 {
@@ -70,25 +71,30 @@ namespace BeatPlanner
 			get { return Beat.Meter; }
 			set { Beat = new Beat(value, Beat.BPM); }
 		}
-
+		// Not really used
 		private Stopwatch sw;
 		private Thread thread;
-		private SoundPlayer player;
+		private SoundPlayer accentSoundPlayer;
+		private SoundPlayer soundPlayer;
 		private BeatEnumerator bEnum;
 		private bool shouldStop = false;
 
 		public ReaderWriterLockSlim Lock { get; private set; }
 
-		public Metronome(Beat beat)
+		public Metronome(Beat beat, ISound sound, ISound accSound)
 		{
 			sw = new Stopwatch();
 			bEnum = new BeatEnumerator(beat);
-			player = new SoundPlayer();
+			soundPlayer = new SoundPlayer(sound.Stream);
+			accentSoundPlayer = new SoundPlayer(accSound.Stream);
 			Beats = 0;
 			Lock = new ReaderWriterLockSlim();
 		}
 
-		public Metronome() : this(new Beat(Meter.Common, 60))
+		public Metronome() : 
+			this(new Beat(Meter.Common, 60), 
+			     new BeepSound(440, 50, ushort.MaxValue / 2), 
+			     new BeepSound(660, 50, ushort.MaxValue / 2))
 		{
 
 		}
@@ -142,7 +148,11 @@ namespace BeatPlanner
 				if (info.Index == Beat.Meter.Upper)
 					Interlocked.Increment(ref bars);
 				Interlocked.Increment(ref beats);
-				player.PlayBeep((info.Index == 1 ? (ushort)660 : (ushort)440), 50);
+				if (info.Index == 1)
+					accentSoundPlayer.Play();
+				else
+					soundPlayer.Play();
+				
 				Console.WriteLine(sw.ElapsedMilliseconds + ", Index: " + info.Index + ", Bars: " + Bars);
 				Thread.Sleep((int)info.Duration); // Not very accurate, unfortunately. Alternatives appear limited
 			}

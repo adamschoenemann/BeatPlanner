@@ -39,7 +39,7 @@
     <Compile Include="src\BeatPlanner.cs" />
     <Compile Include="src\Metronome.cs" />
     <Compile Include="src\Utils.cs" />
-    <Compile Include="src\SoundPlayer.cs" />
+    <Compile Include="src\Sound.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -48,6 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\track1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\llfclave.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\llfclave_low.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
