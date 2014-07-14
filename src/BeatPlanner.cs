@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Linq.Expressions;
 using System.IO;
+using System.Text;
 
 namespace BeatPlanner
 {
@@ -36,6 +37,11 @@ namespace BeatPlanner
 				Lower = l;
 			else
 				throw new ArgumentException("Invalid lower meter given");
+		}
+
+		public override string ToString()
+		{
+			return string.Format("{0}/{1}", Upper, Lower);
 		}
 
 		public static readonly Meter Common = new Meter(4, 4);
@@ -129,14 +135,20 @@ namespace BeatPlanner
 			return Parse(input.Split(new []{ '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
 		}
 
-		public static string Compose()
+		public string Compose()
 		{
-			throw new NotImplementedException();
+			StringBuilder sb = new StringBuilder();
+			foreach (Tuple<Beat, int> seq in sequences)
+			{
+				sb.AppendFormat("{0} {1} {2}{3}", seq.Item1.Meter, seq.Item1.BPM, 
+					seq.Item2, Environment.NewLine);
+			}
+			return sb.ToString();
 		}
 
 		public void Save(string path)
 		{
-
+			File.WriteAllText(path, Compose());
 		}
 
 		public static Track Load(string path)
@@ -179,7 +191,8 @@ namespace BeatPlanner
 		{
 			Track track = Track.Load("assets/track1.txt");
 			BeatPlanner planner = new BeatPlanner();
-			planner.Play(track);
+			track.Save("assets/track2.txt");
+//			planner.Play(track);
 
 		}
 
