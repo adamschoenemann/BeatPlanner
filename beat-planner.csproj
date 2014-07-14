@@ -9,6 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>beatplanner</RootNamespace>
     <AssemblyName>beat-planner</AssemblyName>
+    <UseMSBuildEngine>False</UseMSBuildEngine>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>

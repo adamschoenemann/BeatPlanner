@@ -4,62 +4,80 @@ using System.Threading;
 
 namespace BeatPlanner
 {
-
-	public class BeatEnumerator
+	public class Metronome
 	{
-		public struct Info
+		private class BeatEnumerator
 		{
-			public readonly int Index;
-			public readonly long Duration;
-			public Info(int i, long d)
+			public struct Info
 			{
-				Index = i;
-				Duration = d;
+				public readonly int Index;
+				public readonly long Duration;
+
+				public Info(int i, long d)
+				{
+					Index = i;
+					Duration = d;
+				}
+			}
+
+			public readonly Beat Beat;
+			private int index = 1;
+
+			public BeatEnumerator(Beat beat)
+			{
+				this.Beat = beat;
+			}
+
+			public Info Next()
+			{
+				int retIndex = index;
+				index++;
+				if (index > Beat.Meter.Upper)
+					index = 1;
+
+				long fourthDur = 60000 / Beat.BPM;
+				long dur = (long)(fourthDur * (4 / (float)Beat.Meter.Lower));
+
+				return new Info(retIndex, dur);
 			}
 		}
 
-		public readonly Beat Beat;
-		private int index = 1;
-		public BeatEnumerator(Beat beat)
-		{
-			this.Beat = beat;
-		}
-
-		public Info Next()
-		{
-			int retIndex = index;
-			index++;
-			if(index > Beat.Meter.Upper)
-				index = 1;
-
-			long fourthDur = 60000 / Beat.BPM;
-			long dur = (long)(fourthDur * (4 / (float)Beat.Meter.Lower));
-
-			return new Info(retIndex, dur);
-		}
-	}
-
-	public class Metronome
-	{
-
 		private int beats = 0;
-		public int Beats {get {return beats;} private set {beats = value;}}
+
+		public int Beats { get { return beats; } private set { beats = value; } }
+
+		private int bars = 0;
+
+		public int Bars { get { return bars; } private set { bars = value; } }
 
 		public Beat Beat
 		{
 			get { return bEnum.Beat; }
-			set 
+			set
 			{
-				bEnum  = new BeatEnumerator(value);
+				bEnum = new BeatEnumerator(value);
 			}
+		}
+
+		public int BPM
+		{
+			get { return Beat.BPM; }
+			set { Beat = new Beat(value, Beat.Meter); }
+		}
+
+		public Meter Meter
+		{
+			get { return Beat.Meter; }
+			set { Beat = new Beat(Beat.BPM, value); }
 		}
 
 		private Stopwatch sw;
 		private Thread thread;
 		private SoundPlayer player;
 		private BeatEnumerator bEnum;
-
 		private bool shouldStop = false;
+
+		public ReaderWriterLockSlim Lock { get; private set; }
 
 		public Metronome(Beat beat)
 		{
@@ -67,6 +85,7 @@ namespace BeatPlanner
 			bEnum = new BeatEnumerator(beat);
 			player = new SoundPlayer();
 			Beats = 0;
+			Lock = new ReaderWriterLockSlim();
 		}
 
 		public Metronome() : this(new Beat(60, Meter.Common))
@@ -77,7 +96,9 @@ namespace BeatPlanner
 		public void Start()
 		{
 			thread = new Thread(Loop);
+			thread.Priority = ThreadPriority.Highest;
 			sw.Start();
+
 			thread.Start();
 		}
 
@@ -94,7 +115,7 @@ namespace BeatPlanner
 			Beats = 0;
 			sw.Reset();
 			bEnum = new BeatEnumerator(bEnum.Beat);
-			if(thread.IsAlive)
+			if (thread.IsAlive)
 			{
 				sw.Start();
 			}
@@ -103,7 +124,9 @@ namespace BeatPlanner
 		public void Restart()
 		{
 			Reset();
-			sw.Start();
+			if (thread.IsAlive == false)
+				Start();
+
 		}
 
 		private void Loop()
@@ -112,10 +135,14 @@ namespace BeatPlanner
 			BeatEnumerator.Info info;
 			while (shouldStop == false)
 			{
+				Lock.EnterReadLock();
 				info = bEnum.Next();
+				Lock.ExitReadLock();
+				if (info.Index == Beat.Meter.Upper)
+					Interlocked.Increment(ref bars);
 				Interlocked.Increment(ref beats);
 				player.PlayBeep((info.Index == 1 ? (ushort)660 : (ushort)440), 50);
-				Console.WriteLine(sw.ElapsedMilliseconds + ", Index: " + info.Index);
+				Console.WriteLine(sw.ElapsedMilliseconds + ", Index: " + info.Index + ", Bars: " + Bars);
 				Thread.Sleep((int)info.Duration); // Not very accurate, unfortunately. Alternatives appear limited
 			}
 			shouldStop = false;
