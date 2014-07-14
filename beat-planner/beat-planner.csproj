@@ -40,6 +40,7 @@
     <Compile Include="src\Metronome.cs" />
     <Compile Include="src\Utils.cs" />
     <Compile Include="src\Sound.cs" />
+    <Compile Include="src\TrackPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

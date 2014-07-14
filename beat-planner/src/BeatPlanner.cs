@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Linq.Expressions;
 using System.IO;
 using System.Text;
 
@@ -160,44 +157,6 @@ namespace BeatPlanner
 
 	public class BeatPlanner
 	{
-		private Metronome metro;
-
-		public BeatPlanner(Metronome metro)
-		{
-			this.metro = metro;
-		}
-
-		public BeatPlanner() : this(new Metronome())
-		{
-
-		}
-
-		public void Play(Track track)
-		{
-			int i = 0;
-			Tuple<Beat, int>[] sequences = track.Sequences;
-			Tuple<Beat, int> seq = sequences[i];
-			Beat beat = seq.Item1;
-			int reps = seq.Item2;
-			int nextChange = reps;
-			metro.Beat = beat;
-			metro.Start();
-			while (true)
-			{
-				if (metro.Bars == nextChange)
-				{
-					if (i == sequences.Length - 1)
-						break;
-					seq = sequences[++i];
-					beat = seq.Item1;
-					reps = seq.Item2;
-					metro.Beat = beat;
-					nextChange += reps;
-				}
-			}
-			metro.Stop();
-		}
-
 		public static void Main(string[] args)
 		{
 			Track track = Track.Load("assets/track1.txt");
@@ -207,16 +166,26 @@ namespace BeatPlanner
 				                  new WavSound("assets/llfclave.wav")
 			                  );
 
-			BeatPlanner planner = new BeatPlanner(metro);
-			planner.Play(track);
+			TrackPlayer player = new TrackPlayer(track, metro);
+			player.PlayAsync();
+			String read = "";
+			do
+			{
+				if (read == "stop")
+				{
+					player.Stop();
+				}
+				read = Console.ReadLine();
+			} while (read != "q");
+			player.Stop();
 		}
 
 		public static void LoadSaveTest(string[] args)
 		{
 			Track track = Track.Load("assets/track1.txt");
-			BeatPlanner planner = new BeatPlanner();
+			TrackPlayer player = new TrackPlayer(track);
 			track.Save("assets/track2.txt");
-//			planner.Play(track);
+//			player.Play();
 		}
 
 		public static void ParseBeatTest(string[] args)
@@ -239,14 +208,14 @@ namespace BeatPlanner
 
 		public static void TrackTest(string[] args)
 		{
-			BeatPlanner planner = new BeatPlanner();
 			Track track = new Track();
+			TrackPlayer player = new TrackPlayer(track);
 			track.AppendSequence(new Beat(Meter.Common, 80), 4);
 			track.AppendSequence(new Beat(new Meter(3, 4), 120), 4);
 			track.AppendSequence(new Beat(new Meter(7, 8), 200), 4);
 			track.PrependSequence(new Beat(new Meter(5, 4), 160), 2);
 
-			planner.Play(track);
+			player.Play();
 		}
 
 		public static void MetroTest(string[] args)
