@@ -1,16 +1,12 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Threading;
+using System.Linq.Expressions;
+using System.IO;
 
 namespace BeatPlanner
 {
-	public class Track
-	{
-		public List<IBar> Bars;
-		// Maintains a mapping from bar index to tempo
-		public Dictionary<int, ITempo> Tempos;
-	}
-
 	public interface ITempo
 	{
 		float Tempo { get; }
@@ -47,29 +43,116 @@ namespace BeatPlanner
 
 	public class Beat
 	{
-		public int BPM;
-		public Meter Meter;
+		public readonly int BPM;
+		public readonly Meter Meter;
 
-		public Beat(int BPM, Meter meter)
+		public Beat(Meter meter, int BPM)
 		{
 			this.BPM = BPM;
 			this.Meter = meter;
 		}
+
+		public static Beat Parse(string[] splits)
+		{
+			string bpmStr = splits[1];
+			int bpm = Convert.ToInt32(bpmStr);
+
+			string meterStr = splits[0];
+			string[] meterSplits = meterStr.Split('/');
+			int upper = Convert.ToInt32(meterSplits[0]);
+			int lower = Convert.ToInt32((meterSplits[1]));
+
+			return new Beat(new Meter(upper, lower), bpm);
+		}
+		// METER BPM
+		// 4/4   180
+		public static Beat Parse(string line)
+		{
+			string[] splits = line.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			return Parse(splits);
+
+		}
 	}
 
-	public class BeatPlanner
+	public class Track
 	{
-		private List<Tuple<Beat, int>> sequences = new List<Tuple<Beat, int>>();
+		private readonly List<Tuple<Beat, int>> sequences = new List<Tuple<Beat, int>>();
+
+		public Tuple<Beat, int>[] Sequences
+		{
+			get
+			{
+				Tuple<Beat,int>[] result = new Tuple<Beat, int>[sequences.Count];
+				sequences.CopyTo(result);
+				return result;
+			}
+		}
 
 		public void AppendSequence(Beat beat, int reps)
 		{
 			sequences.Add(new Tuple<Beat, int>(beat, reps));
 		}
 
-		public void Play()
+		public void PrependSequence(Beat beat, int reps)
+		{
+			sequences.Insert(0, new Tuple<Beat, int>(beat, reps));
+		}
+
+		public void InsertSequence(Beat Beat, int reps, int i)
+		{
+			sequences.Insert(i, new Tuple<Beat, int>(Beat, reps));
+		}
+		// METER BPM REPS
+		// 4/4   180 4
+		private static Tuple<Beat, int> ParseSequence(string line)
+		{
+			string[] splits = line.Split(new []{ ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			Beat beat = Beat.Parse(splits);
+			int reps = Convert.ToInt32(splits[2]);
+			return new Tuple<Beat, int>(beat, reps);
+		}
+
+		public static Track Parse(string[] lines)
+		{
+			Track track = new Track();
+			Tuple<Beat, int> seq;
+			for (int i = 0; i < lines.Length; i++)
+			{
+				seq = ParseSequence(lines[i]);
+				track.AppendSequence(seq.Item1, seq.Item2);
+			}
+			return track;
+		}
+
+		public static Track Parse(string input)
+		{
+			return Parse(input.Split(new []{ '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
+		}
+
+		public static string Compose()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Save(string path)
+		{
+
+		}
+
+		public static Track Load(string path)
+		{
+			string[] lines = File.ReadAllLines(path);
+			return Parse(lines);
+		}
+	}
+
+	public class BeatPlanner
+	{
+		public void Play(Track track)
 		{
 			Metronome metro = new Metronome();
 			int i = 0;
+			Tuple<Beat, int>[] sequences = track.Sequences;
 			Tuple<Beat, int> seq = sequences[i];
 			Beat beat = seq.Item1;
 			int reps = seq.Item2;
@@ -80,7 +163,7 @@ namespace BeatPlanner
 			{
 				if (metro.Bars == nextChange)
 				{
-					if (i == sequences.Count - 1)
+					if (i == sequences.Length - 1)
 						break;
 					seq = sequences[++i];
 					beat = seq.Item1;
@@ -94,17 +177,40 @@ namespace BeatPlanner
 
 		public static void Main(string[] args)
 		{
+			Track track = Track.Load("assets/track1.txt");
 			BeatPlanner planner = new BeatPlanner();
-			planner.AppendSequence(new Beat(80, Meter.Common), 4);
-			planner.AppendSequence(new Beat(120, new Meter(3, 4)), 4);
-			planner.AppendSequence(new Beat(200, new Meter(7, 8)), 4);
-//			planner.AppendSequence(new Beat(40, Meter.Common), 4);
+			planner.Play(track);
 
-			planner.Play();
+		}
 
+		public static void ParseBeatTest(string[] args)
+		{
+			string input = Console.ReadLine();
+			Metronome metro = new Metronome();
 
+			while (input != "q")
+			{
+				Beat beat = Beat.Parse(input);
+				metro.Beat = beat;
+				metro.Start();
+				while (metro.Bars < 2)
+					;
+				metro.Stop();
+				metro.Reset();
+				input = Console.ReadLine();
+			}
+		}
 
-//			MetroTest(args);
+		public static void TrackTest(string[] args)
+		{
+			BeatPlanner planner = new BeatPlanner();
+			Track track = new Track();
+			track.AppendSequence(new Beat(Meter.Common, 80), 4);
+			track.AppendSequence(new Beat(new Meter(3, 4), 120), 4);
+			track.AppendSequence(new Beat(new Meter(7, 8), 200), 4);
+			track.PrependSequence(new Beat(new Meter(5, 4), 160), 2);
+
+			planner.Play(track);
 		}
 
 		public static void MetroTest(string[] args)
@@ -146,7 +252,7 @@ namespace BeatPlanner
 						string bpmstr = Console.ReadLine();
 						int bpm = Convert.ToInt32(bpmstr);
 						metro.Lock.EnterWriteLock();
-						metro.Beat = new Beat(bpm, metro.Beat.Meter);
+						metro.BPM = bpm;
 						metro.Lock.ExitWriteLock();
 						// metro.BPM = bpm;
 						break;
@@ -159,7 +265,7 @@ namespace BeatPlanner
 						// Console.WriteLine(upper);
 						// Console.WriteLine(lower);
 						metro.Lock.EnterWriteLock();
-						metro.Beat = new Beat(metro.Beat.BPM, new Meter(upper, lower));
+						metro.Meter = new Meter(upper, lower);
 						metro.Lock.ExitWriteLock();
 						break;
 

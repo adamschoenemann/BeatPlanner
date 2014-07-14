@@ -62,13 +62,13 @@ namespace BeatPlanner
 		public int BPM
 		{
 			get { return Beat.BPM; }
-			set { Beat = new Beat(value, Beat.Meter); }
+			set { Beat = new Beat(Beat.Meter, value); }
 		}
 
 		public Meter Meter
 		{
 			get { return Beat.Meter; }
-			set { Beat = new Beat(Beat.BPM, value); }
+			set { Beat = new Beat(value, Beat.BPM); }
 		}
 
 		private Stopwatch sw;
@@ -88,7 +88,7 @@ namespace BeatPlanner
 			Lock = new ReaderWriterLockSlim();
 		}
 
-		public Metronome() : this(new Beat(60, Meter.Common))
+		public Metronome() : this(new Beat(Meter.Common, 60))
 		{
 
 		}
@@ -113,6 +113,7 @@ namespace BeatPlanner
 		public void Reset()
 		{
 			Beats = 0;
+			Bars = 0;
 			sw.Reset();
 			bEnum = new BeatEnumerator(bEnum.Beat);
 			if (thread.IsAlive)
