@@ -1,6 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="BeatPlannerGtk\MainWindow.cs">
+    <Files>
+      <File FileName="BeatPlannerGtk\MainWindow.cs" Line="11" Column="11" />
+      <File FileName="BeatPlannerGtk\Program.cs" Line="1" Column="1" />
+      <File FileName="f:\Projects\beat-planner\BeatPlannerGtk\gtk-gui\MainWindow.cs" Line="1" Column="1" />
+      <File FileName="beat-planner\src\Metronome.cs" Line="57" Column="5" />
+      <File FileName="beat-planner\src\BeatPlanner.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

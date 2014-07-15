@@ -63,7 +63,10 @@ namespace BeatPlanner
 		public int BPM
 		{
 			get { return Beat.BPM; }
-			set { Beat = new Beat(Beat.Meter, value); }
+			set
+			{
+				Beat.BPM = value;
+			}
 		}
 
 		public Meter Meter
@@ -101,6 +104,8 @@ namespace BeatPlanner
 
 		public void Start()
 		{
+			if (thread != null && thread.IsAlive) // already running
+				return;
 			thread = new Thread(Loop);
 			thread.Priority = ThreadPriority.Highest;
 			sw.Start();
@@ -110,10 +115,15 @@ namespace BeatPlanner
 
 		public void Stop()
 		{
-			sw.Stop();
-			shouldStop = true;
-			thread.Join();
-			Console.WriteLine("Metronome stopped");
+			if (thread != null && thread.IsAlive)
+			{
+				sw.Stop();
+				shouldStop = true;
+				thread.Join();
+
+				Console.WriteLine("Metronome stopped");
+			}
+				
 		}
 
 		public void Reset()

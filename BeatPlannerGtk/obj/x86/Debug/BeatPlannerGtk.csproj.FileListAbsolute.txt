@@ -1,0 +1,10 @@
+F:\Projects\beat-planner\BeatPlannerGtk\obj\x86\Debug\BeatPlannerGtk.csprojResolveAssemblyReference.cache
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\assets\track1.txt
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\assets\llfclave.wav
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\assets\llfclave_low.wav
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\BeatPlannerGtk.exe
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\BeatPlannerGtk.pdb
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\beat-planner.dll
+F:\Projects\beat-planner\BeatPlannerGtk\bin\Debug\beat-planner.pdb
+F:\Projects\beat-planner\BeatPlannerGtk\obj\x86\Debug\BeatPlannerGtk.exe
+F:\Projects\beat-planner\BeatPlannerGtk\obj\x86\Debug\BeatPlannerGtk.pdb

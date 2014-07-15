@@ -46,8 +46,8 @@ namespace BeatPlanner
 
 	public class Beat
 	{
-		public readonly int BPM;
-		public readonly Meter Meter;
+		public int BPM;
+		public Meter Meter;
 
 		public Beat(Meter meter, int BPM)
 		{
