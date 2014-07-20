@@ -5,6 +5,18 @@ using System.Media;
 
 namespace BeatPlanner
 {
+	public class BeatEventArgs : EventArgs
+	{
+		public readonly int Index, Beat, Bar;
+
+		public BeatEventArgs(int i, int b, int bar)
+		{
+			Index = i;
+			Beat = b;
+			Bar = bar;
+		}
+	}
+
 	public class Metronome
 	{
 		private class BeatEnumerator
@@ -81,6 +93,7 @@ namespace BeatPlanner
 		private SoundPlayer soundPlayer;
 		private BeatEnumerator bEnum;
 		private bool shouldStop = false;
+		public EventHandler<BeatEventArgs> BeatEvent;
 
 		public ReaderWriterLockSlim Lock { get; private set; }
 
@@ -162,7 +175,10 @@ namespace BeatPlanner
 					accentSoundPlayer.Play();
 				else
 					soundPlayer.Play();
-				
+
+				if (BeatEvent != null)
+					BeatEvent(this, new BeatEventArgs(info.Index, Beats, Bars));
+
 				Console.WriteLine(sw.ElapsedMilliseconds + ", Index: " + info.Index + ", Bars: " + Bars);
 				Thread.Sleep((int)info.Duration); // Not very accurate, unfortunately. Alternatives appear limited
 			}
