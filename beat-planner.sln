@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "beat-planner", "beat-planne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerGtk", "BeatPlannerGtk\BeatPlannerGtk.csproj", "{BCBFA3D6-F10F-4231-BDDE-140639542704}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerAndroid", "BeatPlannerAndroid\BeatPlannerAndroid.csproj", "{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,12 +17,48 @@ Global
 		{29BFCAAC-B894-4F2B-80BF-DD653F6104A2}.Debug|x86.Build.0 = Debug|x86
 		{29BFCAAC-B894-4F2B-80BF-DD653F6104A2}.Release|x86.ActiveCfg = Release|x86
 		{29BFCAAC-B894-4F2B-80BF-DD653F6104A2}.Release|x86.Build.0 = Release|x86
+		{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}.Debug|x86.Build.0 = Debug|Any CPU
+		{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}.Release|x86.ActiveCfg = Release|Any CPU
+		{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}.Release|x86.Build.0 = Release|Any CPU
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Debug|x86.ActiveCfg = Debug|x86
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Debug|x86.Build.0 = Debug|x86
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Release|x86.ActiveCfg = Release|x86
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BeatPlannerGtk\BeatPlannerGtk.csproj
+		StartupItem = BeatPlannerAndroid\BeatPlannerAndroid.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.TabWidth = 2
+		$1.IndentWidth = 2
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.IndentSwitchBody = True
+		$2.AnonymousMethodBraceStyle = NextLine
+		$2.PropertyBraceStyle = NextLine
+		$2.PropertyGetBraceStyle = NextLine
+		$2.PropertySetBraceStyle = NextLine
+		$2.EventBraceStyle = NextLine
+		$2.EventAddBraceStyle = NextLine
+		$2.EventRemoveBraceStyle = NextLine
+		$2.StatementBraceStyle = NextLine
+		$2.ElseNewLinePlacement = NewLine
+		$2.CatchNewLinePlacement = NewLine
+		$2.FinallyNewLinePlacement = NewLine
+		$2.WhileNewLinePlacement = DoNotCare
+		$2.ArrayInitializerWrapping = DoNotChange
+		$2.ArrayInitializerBraceStyle = NextLine
+		$2.BeforeMethodDeclarationParentheses = False
+		$2.BeforeMethodCallParentheses = False
+		$2.BeforeConstructorDeclarationParentheses = False
+		$2.BeforeDelegateDeclarationParentheses = False
+		$2.NewParentheses = False
+		$2.SpacesBeforeBrackets = False
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
 	EndGlobalSection
 EndGlobal

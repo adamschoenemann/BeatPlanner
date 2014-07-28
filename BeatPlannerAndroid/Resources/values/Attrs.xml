@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+ 
+    <declare-styleable name="SequenceView">
+        <attr name="upperMeter" format="integer" />
+        <attr name="lowerMeter" format="integer" />
+        <attr name="bpm" format="integer" />
+        <attr name="reps" format="integer" />
+    </declare-styleable>
+ 
+</resources>
+

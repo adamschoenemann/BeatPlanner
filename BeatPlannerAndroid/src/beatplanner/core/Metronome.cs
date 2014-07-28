@@ -1,8 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using Android.Media;
-using Android.Content.Res;
 
 
 namespace BeatPlanner
@@ -16,6 +14,16 @@ namespace BeatPlanner
             Index = i;
             Beat = b;
             Bar = bar;
+        }
+    }
+
+    public class BPMChangedEventArgs : EventArgs
+    {
+        public readonly int BPM;
+
+        public BPMChangedEventArgs(int bpm)
+        {
+            BPM = bpm;
         }
     }
 
@@ -80,6 +88,8 @@ namespace BeatPlanner
             set
             {
                 Beat.BPM = value;
+                if (BPMChangedEvent != null)
+                    BPMChangedEvent(this, new BPMChangedEventArgs(value));
             }
         }
 
@@ -95,6 +105,7 @@ namespace BeatPlanner
         private BeatEnumerator bEnum;
         private bool shouldStop = false;
         public EventHandler<BeatEventArgs> BeatEvent;
+        public EventHandler<BPMChangedEventArgs> BPMChangedEvent;
 
         public ReaderWriterLockSlim Lock { get; private set; }
 
@@ -110,6 +121,14 @@ namespace BeatPlanner
             this(new Beat(Meter.Common, 60))
         {
 
+        }
+
+        public bool IsPlaying
+        {
+            get
+            {
+                return (thread != null && thread.IsAlive);
+            }
         }
 
         public void Start()

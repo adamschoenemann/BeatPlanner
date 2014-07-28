@@ -1,16 +1,23 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="beat-planner\src\Metronome.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" PreferredExecutionTarget="Android.nexus_4" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="BeatPlannerAndroid\src\beatplanner\ui\MetroActivity.cs">
     <Files>
-      <File FileName="BeatPlannerGtk\MainWindow.cs" Line="38" Column="27" />
-      <File FileName="BeatPlannerGtk\Program.cs" Line="1" Column="1" />
-      <File FileName="f:\Projects\beat-planner\BeatPlannerGtk\gtk-gui\MainWindow.cs" Line="1" Column="1" />
-      <File FileName="beat-planner\src\Metronome.cs" Line="169" Column="25" />
-      <File FileName="beat-planner\src\BeatPlanner.cs" Line="1" Column="1" />
+      <File FileName="BeatPlannerAndroid\src\beatplanner\ui\MainActivity.cs" Line="45" Column="13" />
+      <File FileName="BeatPlannerAndroid\src\beatplanner\core\Metronome.cs" Line="119" Column="9" />
+      <File FileName="BeatPlannerAndroid\src\beatplanner\ui\MetroActivity.cs" Line="72" Column="15" />
+      <File FileName="BeatPlannerAndroid\Properties\AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="BeatPlannerAndroid\Resources\values\Strings.xml" Line="1" Column="1" />
+      <File FileName="BeatPlannerAndroid\src\beatplanner\core\BeatPlanner.cs" Line="28" Column="16" />
     </Files>
+    <Pads>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.BeatPlannerAndroid MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
 </Properties>
