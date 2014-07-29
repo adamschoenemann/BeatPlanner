@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerAndroid", "BeatP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerTests", "BeatPlannerTests\BeatPlannerTests.csproj", "{C248D513-40F0-4813-B269-E93318C48F54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragSortListViewBindings", "DragSortListViewBindings\DragSortListViewBindings.csproj", "{C2571C33-52CB-4647-A3E3-B849BD28E298}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -31,6 +33,10 @@ Global
 		{C248D513-40F0-4813-B269-E93318C48F54}.Debug|x86.Build.0 = Debug|Any CPU
 		{C248D513-40F0-4813-B269-E93318C48F54}.Release|x86.ActiveCfg = Release|Any CPU
 		{C248D513-40F0-4813-B269-E93318C48F54}.Release|x86.Build.0 = Release|Any CPU
+		{C2571C33-52CB-4647-A3E3-B849BD28E298}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C2571C33-52CB-4647-A3E3-B849BD28E298}.Debug|x86.Build.0 = Debug|Any CPU
+		{C2571C33-52CB-4647-A3E3-B849BD28E298}.Release|x86.ActiveCfg = Release|Any CPU
+		{C2571C33-52CB-4647-A3E3-B849BD28E298}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = BeatPlannerAndroid\BeatPlannerAndroid.csproj
