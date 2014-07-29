@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerGtk", "BeatPlann
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerAndroid", "BeatPlannerAndroid\BeatPlannerAndroid.csproj", "{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatPlannerTests", "BeatPlannerTests\BeatPlannerTests.csproj", "{C248D513-40F0-4813-B269-E93318C48F54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +27,10 @@ Global
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Debug|x86.Build.0 = Debug|x86
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Release|x86.ActiveCfg = Release|x86
 		{BCBFA3D6-F10F-4231-BDDE-140639542704}.Release|x86.Build.0 = Release|x86
+		{C248D513-40F0-4813-B269-E93318C48F54}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C248D513-40F0-4813-B269-E93318C48F54}.Debug|x86.Build.0 = Debug|Any CPU
+		{C248D513-40F0-4813-B269-E93318C48F54}.Release|x86.ActiveCfg = Release|Any CPU
+		{C248D513-40F0-4813-B269-E93318C48F54}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = BeatPlannerAndroid\BeatPlannerAndroid.csproj

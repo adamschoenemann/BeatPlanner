@@ -44,19 +44,8 @@ namespace BeatPlannerAndroid
     private void Init()
     {
 
-      metro = new Metronome();
-      sp = new SoundPool(2, Android.Media.Stream.Music, 0);
-      claveId = sp.Load(this, Resource.Raw.llfclave, 1);
-      claveLowId = sp.Load(this, Resource.Raw.llfclave_low, 1);
-      metro.BeatEvent += (object sender, BeatEventArgs e) =>
-      {
-        int sid;
-        if (e.Index == 1)
-          sid = claveId;
-        else
-          sid = claveLowId;
-        sp.Play(sid, 1.0f, 1.0f, 1, 0, 1.0f);
-      };
+      metro = MetroApp.DefaultMetronome(this);
+
       metro.BPMChangedEvent += OnBPMChanged;
 
       // UI init
@@ -69,23 +58,9 @@ namespace BeatPlannerAndroid
       upperMeterSpinner = FindViewById<Spinner>(Resource.Id.upperMeter);
       lowerMeterSpinner = FindViewById<Spinner>(Resource.Id.lowerMeter);
 
-      var upperAdapter = ArrayAdapter.CreateFromResource(
-                           this,
-                           Resource.Array.upperMeterValues, 
-                           Android.Resource.Layout.SimpleSpinnerItem
-                         );
 
-      upperAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-      upperMeterSpinner.Adapter = upperAdapter;
 
-      var lowerAdapter = ArrayAdapter.CreateFromResource(
-                           this,
-                           Resource.Array.lowerMeterValues, 
-                           Android.Resource.Layout.SimpleSpinnerItem
-                         );
-
-      lowerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-      lowerMeterSpinner.Adapter = lowerAdapter;
+    
 
       // Initialize UI with values
       bpmText.Text = metro.BPM.ToString();

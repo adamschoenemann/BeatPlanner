@@ -9,5 +9,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         custom:upperMeter="3"
+        custom:lowerMeter="4"
+        android:id="@+id/sequenceView" />
+    <BeatPlannerAndroid.SequenceView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        custom:upperMeter="3"
         custom:lowerMeter="4" />
 </LinearLayout>

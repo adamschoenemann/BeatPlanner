@@ -91,6 +91,9 @@ namespace BeatPlannerAndroid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f070010
+			public const int bpmPicker = 2131165200;
+			
 			// aapt resource value: 0x7f070006
 			public const int bpmSeekBar = 2131165190;
 			
@@ -118,6 +121,15 @@ namespace BeatPlannerAndroid
 			// aapt resource value: 0x7f070000
 			public const int myButton = 2131165184;
 			
+			// aapt resource value: 0x7f070015
+			public const int playBtn = 2131165205;
+			
+			// aapt resource value: 0x7f070014
+			public const int repsView = 2131165204;
+			
+			// aapt resource value: 0x7f070017
+			public const int sequenceView = 2131165207;
+			
 			// aapt resource value: 0x7f070001
 			public const int startBtn = 2131165185;
 			
@@ -136,11 +148,20 @@ namespace BeatPlannerAndroid
 			// aapt resource value: 0x7f07000e
 			public const int textView2 = 2131165198;
 			
-			// aapt resource value: 0x7f070010
-			public const int trackRoot = 2131165200;
+			// aapt resource value: 0x7f070013
+			public const int textView3 = 2131165203;
+			
+			// aapt resource value: 0x7f070016
+			public const int trackRoot = 2131165206;
 			
 			// aapt resource value: 0x7f07000d
 			public const int upperMeter = 2131165197;
+			
+			// aapt resource value: 0x7f070011
+			public const int verDiv = 2131165201;
+			
+			// aapt resource value: 0x7f070012
+			public const int view1 = 2131165202;
 			
 			static Id()
 			{
@@ -162,7 +183,10 @@ namespace BeatPlannerAndroid
 			public const int Metro = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Track = 2130903042;
+			public const int SequenceView = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int Track = 2130903043;
 			
 			static Layout()
 			{

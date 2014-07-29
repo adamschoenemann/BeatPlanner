@@ -22,6 +22,14 @@ namespace BeatPlannerAndroid
 
     public Sequence Sequence;
 
+    public NumberPicker BpmPicker { private set; get; }
+
+    public UpperMeterSpinner UpperMeterView { private set; get; }
+
+    public LowerMeterSpinner LowerMeterView { private set; get; }
+
+    public Button PlayBtn { private set; get; }
+
     public SequenceView(Context context) :
       base(context)
     {
@@ -44,13 +52,31 @@ namespace BeatPlannerAndroid
 
     private void Initialize()
     {
-      var tv = new TextView(Context);
-      tv.Text = "BPM: " + Sequence.Beat.BPM +
-      "\nUpper: " + Sequence.Beat.Meter.Upper +
-      "\nLower: " + Sequence.Beat.Meter.Lower +
-      "\nReps: " + Sequence.Reps;
-      AddView(tv);
-      
+//      var tv = new TextView(Context);
+//      tv.Text = "BPM: " + Sequence.Beat.BPM +
+//      "\nUpper: " + Sequence.Beat.Meter.Upper +
+//      "\nLower: " + Sequence.Beat.Meter.Lower +
+//      "\nReps: " + Sequence.Reps;
+//      AddView(tv);
+      LayoutInflater inflater = 
+        (LayoutInflater)Context.GetSystemService(Context.LayoutInflaterService);
+      inflater.Inflate(Resource.Layout.SequenceView, this, true);
+
+      BpmPicker = FindViewById<NumberPicker>(Resource.Id.bpmPicker);
+      UpperMeterView = FindViewById<UpperMeterSpinner>(Resource.Id.upperMeter);
+      LowerMeterView = FindViewById<LowerMeterSpinner>(Resource.Id.lowerMeter);
+      PlayBtn = FindViewById<Button>(Resource.Id.playBtn);
+
+      BpmPicker.WrapSelectorWheel = false;
+      BpmPicker.MinValue = 1;
+      BpmPicker.MaxValue = 300;
+      BpmPicker.Value = 100;
+      BpmPicker.ValueChanged += (object sender, NumberPicker.ValueChangeEventArgs e) =>
+      {
+        Sequence.Beat.BPM = e.NewVal;
+      };
+
+
     }
 
     private void SetAttrs(Context ctx, IAttributeSet attrs)

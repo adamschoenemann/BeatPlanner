@@ -6,16 +6,16 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}</ProjectGuid>
+    <ProjectGuid>{C248D513-40F0-4813-B269-E93318C48F54}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>BeatPlannerAndroid</RootNamespace>
+    <RootNamespace>BeatPlannerTests</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
-    <AssemblyName>BeatPlannerAndroid</AssemblyName>
+    <AssemblyName>BeatPlannerTests</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
   </PropertyGroup>
@@ -44,25 +44,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Xamarin.Android.NUnitLite" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="TestsSample.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\beatplanner\core\BeatPlanner.cs" />
-    <Compile Include="src\beatplanner\core\Metronome.cs" />
-    <Compile Include="src\beatplanner\core\Sound.cs" />
-    <Compile Include="src\beatplanner\core\TrackPlayer.cs" />
-    <Compile Include="src\beatplanner\core\Utils.cs" />
-    <Compile Include="src\beatplanner\core\Track.cs" />
-    <Compile Include="src\beatplanner\core\Sequence.cs" />
-    <Compile Include="src\beatplanner\ui\MetroApp.cs" />
-    <Compile Include="src\beatplanner\ui\views\LowerMeterSpinner.cs" />
-    <Compile Include="src\beatplanner\ui\views\UpperMeterSpinner.cs" />
-    <Compile Include="src\beatplanner\ui\views\MeterSpinner.cs" />
-    <Compile Include="src\beatplanner\ui\widgets\SequenceView.cs" />
-    <Compile Include="src\beatplanner\ui\activities\MainActivity.cs" />
-    <Compile Include="src\beatplanner\ui\activities\MetroActivity.cs" />
-    <Compile Include="src\beatplanner\ui\activities\TrackActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,25 +58,13 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
-    <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
-    <AndroidResource Include="Resources\raw\llfclave.wav" />
-    <AndroidResource Include="Resources\raw\llfclave_low.wav" />
-    <AndroidResource Include="Resources\layout\Metro.axml" />
-    <AndroidResource Include="Resources\layout\Track.axml" />
-    <AndroidResource Include="Resources\values\Attrs.xml" />
-    <AndroidResource Include="Resources\layout\SequenceView.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="src\" />
-    <Folder Include="src\beatplanner\" />
-    <Folder Include="src\beatplanner\core\" />
-    <Folder Include="src\beatplanner\ui\" />
-    <Folder Include="Resources\raw\" />
-    <Folder Include="src\beatplanner\ui\views\" />
-    <Folder Include="src\beatplanner\ui\widgets\" />
-    <Folder Include="src\beatplanner\ui\activities\" />
+    <ProjectReference Include="..\BeatPlannerAndroid\BeatPlannerAndroid.csproj">
+      <Project>{4B0851D3-CFC7-421D-9AD3-47B489E22DB0}</Project>
+      <Name>BeatPlannerAndroid</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
