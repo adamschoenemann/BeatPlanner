@@ -8,20 +8,21 @@ package dk.aschoen.beatplanner.core;
 
 public class Meter   
 {
-    public int Upper;
-    public int Lower;
+    public int upper;
+    public int lower;
     public Meter(int u, int l) {
-        Upper = u;
+        upper = u;
         if (l == 2 || l == 4 || l == 8 || l == 16 || l == 32)
-            Lower = l;
+            lower = l;
         else
             throw new IllegalArgumentException("Invalid lower meter given");
     }
 
+    @Override
     public String toString() {
         try
         {
-            return String.format("%d/%d}", Upper, Lower);
+            return String.format("%d/%d}", upper, lower);
         }
         catch (RuntimeException e) {
             throw e;

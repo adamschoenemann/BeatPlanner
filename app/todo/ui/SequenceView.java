@@ -69,8 +69,8 @@ public class SequenceView  extends LinearLayout
     private void initialize() throws Exception {
         //      var tv = new TextView(Context);
         //      tv.Text = "BPM: " + Sequence.beat.BPM +
-        //      "\nUpper: " + Sequence.beat.Meter.Upper +
-        //      "\nLower: " + Sequence.beat.Meter.Lower +
+        //      "\nupper: " + Sequence.beat.Meter.upper +
+        //      "\nlower: " + Sequence.beat.Meter.lower +
         //      "\nreps: " + Sequence.reps;
         //      AddView(tv);
         LayoutInflater inflater = (LayoutInflater)Context.GetSystemService(Context.LayoutInflaterService);

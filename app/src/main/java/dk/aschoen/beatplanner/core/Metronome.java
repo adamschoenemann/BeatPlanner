@@ -32,11 +32,11 @@ public class Metronome
         public Info next() {
             int retIndex = index;
             index++;
-            if (index > beat.meter.Upper)
+            if (index > beat.meter.upper)
                 index = 1;
              
             long fourthDur = 60000 / beat.BPM;
-            long dur = (long)(fourthDur * (4 / (float) beat.meter.Lower));
+            long dur = (long)(fourthDur * (4 / (float) beat.meter.lower));
             return new Info(retIndex,dur);
         }
     
@@ -106,7 +106,7 @@ public class Metronome
         public void handle(int oldBPM, int newBPM);
     }
     private ArrayList<BPMChangedHandler> bpmChangedHandlers = new ArrayList<BPMChangedHandler>();
-    public void OnBPMChangedEvent(BPMChangedHandler h) {
+    public void onBPMChangedEvent(BPMChangedHandler h) {
         bpmChangedHandlers.add(h);
     }
     // -------------------------------------------------------- //
@@ -187,7 +187,7 @@ public class Metronome
         Metronome.BeatEnumerator.Info info;
         while (shouldStop == false) {
             info = bEnum.next();
-            if (info.index == getBeat().meter.Upper) {
+            if (info.index == getBeat().meter.upper) {
                 bars++;
             }
             beats++;
