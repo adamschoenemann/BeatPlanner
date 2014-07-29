@@ -1,2 +1,0 @@
-# Beat-planner
-The purpose of this project is to create a programmable metronome. Ultimately, it should be packaged as an app for Android, and possibly iPhone (we'll see about that). For my own practice purposes as a drummer, but if it ever gets usable I might release it.
