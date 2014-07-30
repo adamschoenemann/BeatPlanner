@@ -8,8 +8,8 @@ package dk.aschoen.beatplanner.core;
 
 public class Meter   
 {
-    public int upper;
-    public int lower;
+    private int upper;
+    private int lower;
     public Meter(int u, int l) {
         upper = u;
         if (l == 2 || l == 4 || l == 8 || l == 16 || l == 32)
@@ -22,7 +22,7 @@ public class Meter
     public String toString() {
         try
         {
-            return String.format("%d/%d}", upper, lower);
+            return String.format("%d/%d}", getUpper(), getLower());
         }
         catch (RuntimeException e) {
             throw e;
@@ -31,6 +31,22 @@ public class Meter
     }
 
     public static final Meter Common = new Meter(4,4);
+
+    public int getUpper() {
+        return upper;
+    }
+
+    public int getLower() {
+        return lower;
+    }
+
+    public void setUpper(int upper) {
+        this.upper = upper;
+    }
+
+    public void setLower(int lower) {
+        this.lower = lower;
+    }
 }
 
 

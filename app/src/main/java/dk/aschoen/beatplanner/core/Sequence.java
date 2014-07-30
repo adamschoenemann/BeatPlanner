@@ -9,13 +9,16 @@ import dk.aschoen.beatplanner.core.Beat;
 
 public class Sequence
 {
-    public Beat beat;
+    private Beat beat;
     public int reps;
     public Sequence(Beat beat, int reps) {
         this.beat = beat;
         this.reps = reps;
     }
 
+    public Beat getBeat() {
+        return beat;
+    }
 }
 
 

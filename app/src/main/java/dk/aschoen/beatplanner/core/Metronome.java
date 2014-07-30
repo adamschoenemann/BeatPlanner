@@ -32,11 +32,11 @@ public class Metronome
         public Info next() {
             int retIndex = index;
             index++;
-            if (index > beat.meter.upper)
+            if (index > beat.getMeter().getUpper())
                 index = 1;
              
-            long fourthDur = 60000 / beat.BPM;
-            long dur = (long)(fourthDur * (4 / (float) beat.meter.lower));
+            long fourthDur = 60000 / beat.getBPM();
+            long dur = (long)(fourthDur * (4 / (float) beat.getMeter().getLower()));
             return new Info(retIndex,dur);
         }
     
@@ -69,23 +69,23 @@ public class Metronome
     }
 
     public int getBPM() {
-        return getBeat().BPM;
+        return getBeat().getBPM();
     }
 
 
     public void setBPM(int value) {
-        int oldBPM = getBeat().BPM;
-        getBeat().BPM = value;
-        for(BPMChangedHandler h : bpmChangedHandlers)
-            h.handle(oldBPM, value);
+        int oldBPM = getBeat().getBPM();
+        getBeat().setBPM(value);
+        for(OnBPMChangedListener h : onBpmChangedListeners)
+            h.onBPMChanged(oldBPM, value);
     }
 
     public Meter getMeter() {
-        return getBeat().meter;
+        return getBeat().getMeter();
     }
 
     public void setMeter(Meter value) {
-        setBeat(new Beat(value,getBeat().BPM));
+        setBeat(new Beat(value, getBeat().getBPM()));
     }
 
     private Thread thread = new Thread();
@@ -93,21 +93,21 @@ public class Metronome
     private boolean shouldStop = false;
 
     // -------------------------------------------------------- //
-    public static interface BeatEventHandler {
-        public void handle(int index, int beats, int bars);
+    public static interface OnBeatEventListener {
+        public void onBeatEvent(int index, int beats, int bars);
     }
-    private ArrayList<BeatEventHandler> beatEventHandlers = new ArrayList<BeatEventHandler>();
-    public void OnBeatEvent(BeatEventHandler h) {
-        beatEventHandlers.add(h);
+    private ArrayList<OnBeatEventListener> onBeatEventListeners = new ArrayList<OnBeatEventListener>();
+    public void OnBeatEvent(OnBeatEventListener h) {
+        onBeatEventListeners.add(h);
     }
 
     // -------------------------------------------------------- //
-    public static interface BPMChangedHandler {
-        public void handle(int oldBPM, int newBPM);
+    public static interface OnBPMChangedListener {
+        public void onBPMChanged(int oldBPM, int newBPM);
     }
-    private ArrayList<BPMChangedHandler> bpmChangedHandlers = new ArrayList<BPMChangedHandler>();
-    public void onBPMChangedEvent(BPMChangedHandler h) {
-        bpmChangedHandlers.add(h);
+    private ArrayList<OnBPMChangedListener> onBpmChangedListeners = new ArrayList<OnBPMChangedListener>();
+    public void onBPMChangedEvent(OnBPMChangedListener h) {
+        onBpmChangedListeners.add(h);
     }
     // -------------------------------------------------------- //
 
@@ -187,12 +187,12 @@ public class Metronome
         Metronome.BeatEnumerator.Info info;
         while (shouldStop == false) {
             info = bEnum.next();
-            if (info.index == getBeat().meter.upper) {
+            if (info.index == getBeat().getMeter().getUpper()) {
                 bars++;
             }
             beats++;
-            for(BeatEventHandler h : beatEventHandlers)
-                h.handle(info.index, getBeats(), getBars());
+            for(OnBeatEventListener h : onBeatEventListeners)
+                h.onBeatEvent(info.index, getBeats(), getBars());
              
 //            Console.WriteLine(sw.ElapsedMilliseconds + ", index: " + info.index + ", Bars: " + getBars());
             try {

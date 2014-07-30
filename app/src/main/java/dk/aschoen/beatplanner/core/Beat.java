@@ -2,8 +2,8 @@ package dk.aschoen.beatplanner.core;
 
 public class Beat
 {
-    public int BPM;
-    public Meter meter;
+    private int BPM;
+    private Meter meter;
     public Beat(Meter meter, int BPM) {
         this.BPM = BPM;
         this.meter = meter;
@@ -26,6 +26,17 @@ public class Beat
         return parse(splits);
     }
 
+    public int getBPM() {
+        return BPM;
+    }
+
+    public Meter getMeter() {
+        return meter;
+    }
+
+    public void setBPM(int BPM) {
+        this.BPM = BPM;
+    }
 }
 
 

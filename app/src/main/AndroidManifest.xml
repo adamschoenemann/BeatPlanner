@@ -9,13 +9,18 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name" >
 
         </activity>
         <activity
-            android:name=".ui.MetroActivity"
+            android:name=".ui.activities.MetroActivity"
             android:label="@string/metro_activity_label">
+
+        </activity>
+        <activity android:name=".ui.activities.TrackActivity"
+            android:label="Track"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

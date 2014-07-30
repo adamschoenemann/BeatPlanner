@@ -5,13 +5,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/trackRoot">
-    <BeatPlannerAndroid.SequenceView
+    <dk.aschoen.beatplanner.ui.widgets.SequenceView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         custom:upperMeter="3"
         custom:lowerMeter="4"
         android:id="@+id/sequenceView" />
-    <BeatPlannerAndroid.SequenceView
+    <dk.aschoen.beatplanner.ui.widgets.SequenceView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         custom:upperMeter="3"

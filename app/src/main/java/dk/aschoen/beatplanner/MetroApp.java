@@ -28,9 +28,9 @@ public class MetroApp extends Application
         final int claveId = sp.load(context, R.raw.llfclave, 1);
         final int claveLowId = sp.load(context, R.raw.llfclave_low, 1);
 
-        metro.OnBeatEvent(new Metronome.BeatEventHandler() {
+        metro.OnBeatEvent(new Metronome.OnBeatEventListener() {
             @Override
-            public void handle(int index, int beats, int bars) {
+            public void onBeatEvent(int index, int beats, int bars) {
                 int sid;
                 if (index == 1)
                     sid = claveId;

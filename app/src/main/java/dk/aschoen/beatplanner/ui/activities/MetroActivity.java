@@ -2,13 +2,12 @@
 // Translated by CS2J (http://www.cs2j.com): 2014-07-29 22:02:12
 //
 
-package dk.aschoen.beatplanner.ui;
+package dk.aschoen.beatplanner.ui.activities;
 
 
 import android.app.Activity;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -42,9 +41,9 @@ public class MetroActivity  extends Activity
 
     private void init() {
         metro = MetroApp.defaultMetronome(this);
-        metro.onBPMChangedEvent(new Metronome.BPMChangedHandler() {
+        metro.onBPMChangedEvent(new Metronome.OnBPMChangedListener() {
             @Override
-            public void handle(int oldBPM, int newBPM) {
+            public void onBPMChanged(int oldBPM, int newBPM) {
                 bpmText.setText(String.valueOf(newBPM));
                 bpmSeekBar.setProgress(newBPM);
             }
@@ -62,7 +61,7 @@ public class MetroActivity  extends Activity
         bpmText.setText(String.valueOf(metro.getBPM()));
         bpmSeekBar.setProgress(metro.getBPM());
 
-        
+
 
         upperMeterSpinner.setSelection(3);
         lowerMeterSpinner.setSelection(1);
@@ -70,7 +69,7 @@ public class MetroActivity  extends Activity
         upperMeterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                metro.getBeat().meter.upper = Integer.valueOf(parent.getItemAtPosition(position).toString());
+                metro.getBeat().getMeter().setUpper(Integer.valueOf(parent.getItemAtPosition(position).toString()));
             }
 
             @Override
@@ -82,7 +81,7 @@ public class MetroActivity  extends Activity
         lowerMeterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                metro.getBeat().meter.lower = Integer.valueOf(parent.getItemAtPosition(position).toString());
+                metro.getBeat().getMeter().setLower(Integer.valueOf(parent.getItemAtPosition(position).toString()));
             }
 
             @Override
